@@ -11,6 +11,7 @@ from ultralytics import SAM
 
 # --- CONFIGURATION ---
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+print(DEVICE)
 OUTPUT_DIR = "dataset_sam_output"
 # We use the Base model (sam_b.pt) for a balance of speed and high accuracy
 SAM_MODEL_TYPE = "sam_b.pt" 
