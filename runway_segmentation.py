@@ -81,6 +81,18 @@ def get_runway_mask(image_path, device='cpu'):
     ROAD_CLASS_ID = 0
     SIDEWALK_CLASS_ID = 1
     
+
+    # We want to treat Road (0), Sidewalk (1), and Traffic Signs (7) all as "Runway Surface"
+    # to avoid holes where the painted numbers are.
+    TARGET_CLASSES = [0, 1, 7] 
+    
+    binary_mask = np.zeros_like(seg_map, dtype=np.uint8)
+    for class_id in TARGET_CLASSES:
+        binary_mask[seg_map == class_id] = 255
+    
+    # FILL HOLES: Use morphological closing to fill in the small gaps (like the "car" misdetection)
+    kernel = np.ones((7,7), np.uint8)
+    binary_mask = cv2.morphologyEx(binary_mask, cv2.MORPH_CLOSE, kernel)
     # Create binary mask: Runway = 255 (White), everything else = 0 (Black)
     # Get predicted class for each pixel
     seg_map = upsampled_logits.argmax(dim=1).squeeze().cpu().numpy()
@@ -90,7 +102,7 @@ def get_runway_mask(image_path, device='cpu'):
     print(f"DEBUG: Unique classes detected in image: {unique_classes}")
     binary_mask = np.zeros_like(seg_map, dtype=np.uint8)
     binary_mask[seg_map == ROAD_CLASS_ID] = 255
-    binary_mask[seg_map == SIDEWALK_CLASS_ID] = 255
+    binary_mask[seg_map == SIDEWALK_CLASS_ID] = 100
     
     print(f"Detected classes: {np.unique(seg_map)}")
     print(f"Binary mask created: {binary_mask.shape}")

@@ -1,5 +1,5 @@
 """
-Semantic Segmentation Script for Runway Detection (Debug Mode)
+Semantic Segmentation Script for Runway Detection (FIXED)
 """
 
 import numpy as np
@@ -10,12 +10,10 @@ import torch
 import random
 
 def load_model(device='cpu'):
-    # START CHANGE: Switching to Cityscapes (Dashcam View)
-    # This model understands roads that vanish into the distance (perspective).
-    model_name = "nvidia/segformer-b0-finetuned-cityscapes-1024-1024"
-    # END CHANGE
+    # Using ADE20K model (Better for runways)
+    model_name = "nvidia/segformer-b4-finetuned-ade-512-512"
     
-    print(f"Loading Driver-View Model: {model_name}")
+    print(f"Loading ADE20K Model: {model_name}")
     
     try:
         processor = SegformerImageProcessor.from_pretrained(model_name)
@@ -34,33 +32,23 @@ def load_model(device='cpu'):
         device = 'cpu'
     
     return processor, model, device
+
+
 def create_debug_overlay(seg_map, original_image_cv, id2label):
-    """
-    Creates a color-coded overlay to visualize what the model sees.
-    """
     h, w, _ = original_image_cv.shape
     color_mask = np.zeros((h, w, 3), dtype=np.uint8)
-    
     unique_classes = np.unique(seg_map)
     
-    # Generate random colors for each class found
-    np.random.seed(42)
+    np.random.seed(42) # Consistent colors
     
     print("\n--- DETAILED DEBUG LOG ---")
     for cls_id in unique_classes:
-        # Get label name (handle cases where config might be missing)
         label_name = id2label.get(cls_id, f"Unknown_ID_{cls_id}")
-        
-        # Assign a random bright color
         color = np.random.randint(0, 255, size=3).tolist()
-        
-        # Color the mask where this class is detected
         color_mask[seg_map == cls_id] = color
-        
         print(f"ID {cls_id}: '{label_name}' -> Colored RGB{color}")
     print("--------------------------\n")
 
-    # Blend original image with the colored mask
     overlay = cv2.addWeighted(original_image_cv, 0.6, color_mask, 0.4, 0)
     return overlay
 
@@ -84,35 +72,40 @@ def get_runway_mask(image_path, device='cpu'):
     
     seg_map = upsampled_logits.argmax(dim=1).squeeze().cpu().numpy()
 
-    # --- CITYSCAPES CLASS MAPPING ---
-    # 0: Road (This is your Runway!)
-    # 1: Sidewalk
-    # 2: Building
-    # 8: Vegetation
-    # 10: Sky
-    # --------------------------------
+    # --- ADE20K TARGETS ---
+    # 6: Road
+    # 52: Runway
+    TARGET_IDS = [6, 54] 
     
-    TARGET_CLASS_ID = 0  # In Cityscapes, Road is ALWAYS 0
+    # --- FIX START ---
+    # We use np.isin() to check against multiple IDs at once
+    mask_bool = np.isin(seg_map, TARGET_IDS)
+    binary_mask = (mask_bool * 255).astype(np.uint8)
+    # --- FIX END ---
     
-    binary_mask = np.zeros_like(seg_map, dtype=np.uint8)
-    binary_mask[seg_map == TARGET_CLASS_ID] = 255
-    
-    # Save the debug overlay again to verify
-    # (Ensure you pasted the 'create_debug_overlay' function from before)
+    # Save debug overlay
     open_cv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-    overlay_img = create_debug_overlay(seg_map, open_cv_image, model.config.id2label)
-    cv2.imwrite("debug_overlay_cityscapes.jpg", overlay_img)
+    # Get id2label mapping safely
+    id2label = getattr(model.config, 'id2label', {})
+    if not id2label:
+        # Fallback: create a simple mapping
+        id2label = {i: f"Class_{i}" for i in range(150)}
+    overlay_img = create_debug_overlay(seg_map, open_cv_image, id2label)
+    cv2.imwrite("debug_overlay_ade20k.jpg", overlay_img)
 
     print(f"Success! Detected {np.sum(binary_mask > 0)} runway pixels.")
     return binary_mask
 
 if __name__ == "__main__":
-    mask = get_runway_mask("runway01.jpg")
-    cv2.imwrite("final_mask.png", mask)
-    
-    if np.sum(mask) == 0:
-        print("\nWARNING: The final mask is empty (All Black).")
-        print("Look at 'debug_overlay.jpg' to see what class ID the runway actually is,")
-        print("then add that ID to the 'TARGET_CLASSES' list in the code.")
-    else:
-        print("Success! Mask saved.")
+    # Ensure this file exists or change the name
+    try:
+        mask = get_runway_mask("runway01.jpg")
+        cv2.imwrite("final_mask.png", mask)
+        
+        if np.sum(mask) == 0:
+            print("\nWARNING: Mask is empty.")
+            print("Check debug_overlay_ade20k.jpg to see which ID the model is choosing.")
+        else:
+            print("Success! Mask saved as 'final_mask.png'.")
+    except Exception as e:
+        print(f"Error: {e}")
