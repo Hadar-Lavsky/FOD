@@ -1,0 +1,13 @@
+name: GenAI-project
+channels:
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pandas
+  - numpy
+  - jupyter
+  - matplotlib
+  - pytorch
+  - torchvision
+  - torchaudio
