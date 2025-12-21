@@ -11,3 +11,9 @@ dependencies:
   - pytorch
   - torchvision
   - torchaudio
+  - diffusers
+  - transformers
+  - accelerate
+  - pillow
+  - scipy
+  - pillow-avif-plugin
