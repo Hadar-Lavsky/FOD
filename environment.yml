@@ -1,20 +1,27 @@
 name: GenAI-project
 channels:
-  - pytorch
   - conda-forge
+  - nodefaults
 dependencies:
   - python=3.11
   - pandas
   - numpy
   - jupyter
+  - ipykernel
   - matplotlib
-  - pytorch
-  - torchvision
-  - torchaudio
-  - diffusers
-  - transformers
-  - accelerate
-  - pillow
   - scipy
-  - pillow-avif-plugin
+  - scikit-learn
+  - tqdm
   - opencv
+  - pyyaml
+  - pip
+  - pip:
+    - transformers
+    - diffusers
+    - accelerate
+    - safetensors
+    - pillow
+    - pillow-avif-plugin
+    - huggingface_hub
+    - ultralytics
+    - torch-directml
