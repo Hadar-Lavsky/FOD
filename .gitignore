@@ -2,3 +2,4 @@
 venv/
 sam_b.pt
 __pycache__/
+.dataset/
