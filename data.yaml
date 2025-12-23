@@ -1,0 +1,9 @@
+# data.yaml
+path: ./dataset/final  # Root directory of the dataset (relative to where you run train.py)
+train: train/images    # Train images (relative to 'path')
+val: val/images        # Validation images (relative to 'path')
+
+# Classes
+nc: 1              # Number of classes
+names:
+  0: oil_spill     # Class name mapping
