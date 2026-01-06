@@ -6,18 +6,7 @@ from ultralytics import YOLO
 import hyperParams as hp
 import torch
 
-def main():
-    # verify/creates folders that are needed but are in the .gitignore
-    utils.setup_directories()
-    
-    # creates masks then inpaints from images in the dataset/0_raw folder
-    pipeline = DatasetMaker()
-    pipeline.run()
-    
-    # creates final YOLO dataset for finetune training
-    utils.split_and_copy_dataset()
-    
-    
+def main():    
     # Check Hardware
     if torch.cuda.is_available():
         device = 0
