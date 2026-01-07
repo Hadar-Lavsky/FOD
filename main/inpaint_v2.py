@@ -84,11 +84,13 @@ def main():
     print("⏳ Loading GLIGEN Model...")
     pipe = StableDiffusionGLIGENPipeline.from_pretrained(
         "masterful/gligen-1-4-inpainting-text-box",
-        torch_dtype=torch.float16,
-        variant="fp16"
+        torch_dtype=torch.float32,
+        safety_checker=None
     ).to("cuda")
     print("✅ Model Loaded.")
 
+    pipe.safety_checker = None
+    pipe.requires_safety_checker = False
     image_files = [f for f in os.listdir(INPUT_IMAGES_DIR) if f.lower().endswith(('.jpg', '.png', '.jpeg'))]
     print(f"Found {len(image_files)} images. Starting processing...")
 
