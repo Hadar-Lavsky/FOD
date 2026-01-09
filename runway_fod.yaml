@@ -1,0 +1,9 @@
+path: /absolute/path/to/datasets/runway_dataset
+train: images/train
+val: images/val
+nc: 4
+names:
+  0: ice_chunk
+  1: oil_spill
+  2: hole
+  3: water_puddle
