@@ -1,9 +1,13 @@
-path: /absolute/path/to/datasets/runway_dataset
+# Use absolute path (run 'pwd' in the new dataset folder to get this)
+# Example: /home/yuri/projects/runway_fod_project/dataset/runway_dataset
+path: dataset/runway_dataset
+
 train: images/train
 val: images/val
-nc: 4
+
+# Classes
+nc: 3
 names:
-  0: ice_chunk
-  1: oil_spill
+  0: ice
+  1: oil
   2: hole
-  3: water_puddle
