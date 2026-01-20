@@ -4,14 +4,14 @@ INPAINT_IMAGES_FOLDER = "./dataset/2_inpaint/images"
 INPAINT_LABELS_FOLDER = "./dataset/2_inpaint/labels"
 YOLO_BASE_FOLDER = "./dataset/final"
 
-YOLO_DATA_FILE = 'data.yaml'
+YOLO_DATA_FILE = 'runway_fod.yaml'
 
-MODEL_NAME = 'yolov12n.pt' 
+MODEL_NAME = 'yolov11n.pt' 
 
 DATASET_SPLIT_RATIO = 0.8       # use 80% train, 20% val
 
 # Training
-EPOCHS = 50
+EPOCHS = 200
 SEED = 42                       # random seed
 IMAGE_SIZE = 640
 BATCH_SIZE = 16
