@@ -8,6 +8,6 @@ val: images/val
 # Classes
 nc: 3
 names:
-  0: ice
-  1: oil
+  0: oil
+  1: ice
   2: hole

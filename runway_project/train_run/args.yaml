@@ -1,6 +1,6 @@
 task: detect
 mode: train
-model: yolov8n.pt
+model: yolo26n.pt
 data: runway_fod.yaml
 epochs: 200
 time: null

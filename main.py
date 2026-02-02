@@ -16,7 +16,7 @@ import hyperParams as hp
 # ==========================================
 # 0. CONFIG FIXES (Speed & Stability)
 # ==========================================
-hp.MODEL_NAME = 'yolov8n.pt'   # Use v8 Nano for speed & auto-download
+hp.MODEL_NAME = 'yolo26n.pt'
 hp.YOLO_DATA_FILE = 'runway_fod.yaml'
 
 # Path setup

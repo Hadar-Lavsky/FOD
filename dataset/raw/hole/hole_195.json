@@ -1,0 +1,27 @@
+{
+  "version": "0.4.30",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "hole",
+      "text": "",
+      "points": [
+        [
+          237.29921259842519,
+          152.75590551181102
+        ],
+        [
+          408.55905511811017,
+          261.81102362204723
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    }
+  ],
+  "imagePath": "hole_195.png",
+  "imageData": null,
+  "imageHeight": 512,
+  "imageWidth": 512
+}

@@ -1,0 +1,95 @@
+{
+  "version": "0.4.30",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "hole",
+      "text": "",
+      "points": [
+        [
+          262.496062992126,
+          164.56692913385825
+        ],
+        [
+          392.41732283464563,
+          321.65354330708664
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "hole",
+      "text": "",
+      "points": [
+        [
+          344.7795275590551,
+          78.34645669291338
+        ],
+        [
+          397.9291338582677,
+          154.33070866141733
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "hole",
+      "text": "",
+      "points": [
+        [
+          232.18110236220468,
+          316.14173228346453
+        ],
+        [
+          403.8346456692913,
+          389.76377952755905
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "hole",
+      "text": "",
+      "points": [
+        [
+          1.472440944881896,
+          360.23622047244095
+        ],
+        [
+          236.51181102362204,
+          386.61417322834643
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "hole",
+      "text": "",
+      "points": [
+        [
+          396.3543307086614,
+          359.84251968503935
+        ],
+        [
+          510.13385826771656,
+          381.8897637795275
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    }
+  ],
+  "imagePath": "hole_132.png",
+  "imageData": null,
+  "imageHeight": 512,
+  "imageWidth": 512
+}
